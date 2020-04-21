@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "684286714062",
+    "firebase_url": "https://desaandroid-369b1.firebaseio.com",
+    "project_id": "desaandroid-369b1",
+    "storage_bucket": "desaandroid-369b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684286714062:android:5ccb97f31464cf0010b09f",
+        "android_client_info": {
+          "package_name": "com.example.sistemashacienda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684286714062-bljvmur1rkgnj4sbim0l7t9kpp0jtlb2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sistemashacienda",
+            "certificate_hash": "d02dab4d3f367a8eaf8a339aca43da5703ea78ee"
+          }
+        },
+        {
+          "client_id": "684286714062-68jebkjf487tbcvmt7271r39vi3s6jav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoK-Shvli6APKUhlg2YFLNLI9cd-8KWT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684286714062-68jebkjf487tbcvmt7271r39vi3s6jav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
