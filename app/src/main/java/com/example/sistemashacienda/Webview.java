@@ -3,11 +3,18 @@ package com.example.sistemashacienda;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class Webview extends AppCompatActivity {
     private WebView webView;
@@ -15,6 +22,10 @@ public class Webview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Obtiene el token de firebse y lo pega en el clipboad
+        obtenerToken();
+
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
@@ -23,6 +34,7 @@ public class Webview extends AppCompatActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
+
     }
 
     @Override
@@ -51,6 +63,32 @@ public class Webview extends AppCompatActivity {
                     }
                 }).show();
     }
+
+
+    ///Firebase
+    private void obtenerToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Webview.this,  new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String mToken = instanceIdResult.getToken();
+                setClipboard(Webview.this,mToken);
+
+            }
+        });
+    }
+    private void setClipboard(Context context, String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(Webview.this, "token copiado", Toast.LENGTH_SHORT).show();
+    }
+
+    ///fin firebase
 
 
 
