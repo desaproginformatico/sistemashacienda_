@@ -51,7 +51,7 @@ public class Webview extends AppCompatActivity {
 
     private void cerrarAplicacion() {
         new AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_launcher_foreground)
+                .setIcon(R.drawable.notificacion)
                 .setTitle("¿Realmente desea cerrar la aplicación?")
                 .setCancelable(false)
                 .setNegativeButton(android.R.string.cancel, null)
