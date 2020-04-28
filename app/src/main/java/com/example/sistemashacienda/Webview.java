@@ -21,10 +21,17 @@ public class Webview extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
 
         //Obtiene el token de firebse y lo pega en el clipboad
         obtenerToken();
+
 
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
@@ -32,7 +39,14 @@ public class Webview extends AppCompatActivity {
         webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+
+        webView.setWebViewClient(new WebViewClient(){
+                                     @Override
+                                     public void onPageFinished(WebView view, String url) {
+                                         setTheme(R.style.AppTheme);
+                                     }
+                                 }
+        );
         webView.setWebChromeClient(new WebChromeClient());
 
     }
