@@ -7,10 +7,21 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     tools:context=".Webview">
 
+    <ImageView
+        android:id="@+id/splash"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/logoapk1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

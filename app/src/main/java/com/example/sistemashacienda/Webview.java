@@ -24,8 +24,8 @@ public class Webview extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         //Obtiene el token de firebse y lo pega en el clipboad
         obtenerToken();
 
@@ -39,6 +39,9 @@ public class Webview extends AppCompatActivity {
         webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
         //webView.setVisibility(View.GONE);
         webView.setWebChromeClient(new WebChromeClient());
+
+
+
 
     }
 
