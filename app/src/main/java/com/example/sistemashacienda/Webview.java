@@ -42,8 +42,6 @@ public class Webview extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (webView.isFocused() && webView.canGoBack()) {
