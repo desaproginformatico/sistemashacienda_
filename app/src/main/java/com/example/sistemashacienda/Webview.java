@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -28,14 +31,18 @@ public class Webview extends AppCompatActivity {
 
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+
         webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
+        //webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
+        webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
+        //webView.setVisibility(View.GONE);
         webView.setWebChromeClient(new WebChromeClient());
 
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -85,7 +92,7 @@ public class Webview extends AppCompatActivity {
             android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
             clipboard.setPrimaryClip(clip);
         }
-        Toast.makeText(Webview.this, "token copiado", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(Webview.this, "token copiado", Toast.LENGTH_SHORT).show();
     }
 
     ///fin firebase
