@@ -34,7 +34,7 @@ public class WebViewJSInterface {
                         webView.setVisibility(View.VISIBLE);
                         splash.setVisibility(View.GONE);
                     }
-                }, 1000);
+                }, 100);
             }
         });
 

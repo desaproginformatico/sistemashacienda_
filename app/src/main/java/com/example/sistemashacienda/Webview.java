@@ -1,5 +1,6 @@
 package com.example.sistemashacienda;
 
+import android.widget.ProgressBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +22,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 public class Webview extends AppCompatActivity {
     private WebView webView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,21 @@ public class Webview extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
         webView.setVisibility(View.GONE);
+        progressBar=findViewById(R.id.progressBar2);
+        progressBar.setMax(100);
         webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
         //webView.setVisibility(View.GONE);
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                progressBar.setProgress(newProgress);
+            }
+        });
 
 
 
