@@ -2,6 +2,7 @@ package com.example.sistemashacienda;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -23,9 +24,19 @@ public class WebViewJSInterface {
     /** Show a toast from the web page */
     @JavascriptInterface
     public void showToast(String toast) {
-        webView.setVisibility(View.VISIBLE);
-        splash.setVisibility(View.GONE);
-        //webView.getSettings().setJavaScriptEnabled(true);
-        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.setVisibility(View.VISIBLE);
+                        splash.setVisibility(View.GONE);
+                    }
+                }, 1000);
+            }
+        });
+
     }
 }

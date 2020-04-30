@@ -31,10 +31,10 @@ public class Webview extends AppCompatActivity {
 
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
-
+        webView.setVisibility(View.GONE);
         webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
         webView.getSettings().setJavaScriptEnabled(true);
-        //webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
         //webView.setVisibility(View.GONE);
