@@ -25,7 +25,7 @@ public class Webview extends AppCompatActivity {
 
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    public String mToken;
     boolean control=true;
 
     @Override
@@ -158,7 +158,7 @@ public class Webview extends AppCompatActivity {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Webview.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
-                String mToken = instanceIdResult.getToken();
+                mToken = instanceIdResult.getToken();
                 setClipboard(Webview.this,mToken);
 
             }

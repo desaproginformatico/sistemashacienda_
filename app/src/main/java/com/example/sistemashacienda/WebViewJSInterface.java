@@ -12,7 +12,6 @@ import android.widget.Toast;
 public class WebViewJSInterface {
     Context mContext;
     WebView webView;
-    ImageView splash;
 
     /** Instantiate the interface and set the context */
     WebViewJSInterface(Context c) {
@@ -22,6 +21,13 @@ public class WebViewJSInterface {
 
     /** Show a toast from the web page */
     @JavascriptInterface
-    public void init() {
+    public String GetFirebaseToken(){
+        return ((Webview) mContext).mToken;
     }
+
+    @JavascriptInterface
+    public String GetDeviceName(){
+        return Utils.getDeviceName();
+    }
+
 }
