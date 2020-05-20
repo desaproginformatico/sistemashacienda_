@@ -79,8 +79,7 @@ public class Webview extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
 
-        //Sin uso por ahora
-        //webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
+        webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
 
         webView.setDownloadListener(new DownloadListener()
         {
