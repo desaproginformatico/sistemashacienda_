@@ -1,13 +1,18 @@
 package com.example.sistemashacienda;
 
-import android.widget.ProgressBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.DownloadListener;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -22,7 +27,6 @@ import com.google.firebase.iid.InstanceIdResult;
 
 public class Webview extends AppCompatActivity {
     private WebView webView;
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +38,48 @@ public class Webview extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.webView);
         webView.setVisibility(View.GONE);
-        progressBar=findViewById(R.id.progressBar2);
-        progressBar.setMax(100);
         webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
         //webView.setVisibility(View.GONE);
-        webView.setWebChromeClient(new WebChromeClient(){
+        webView.setDownloadListener(new DownloadListener()
+        {
+
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                progressBar.setProgress(newProgress);
-            }
-        });
+            public void onDownloadStart(String url, String userAgent,
+                                        String contentDisposition, String mimeType,
+                                        long contentLength) {
+
+                DownloadManager.Request request = new DownloadManager.Request(
+                        Uri.parse(url));
+
+                request.setMimeType(mimeType);
+
+                String cookies = CookieManager.getInstance().getCookie(url);
+
+                request.addRequestHeader("cookie", cookies);
+
+                request.addRequestHeader("User-Agent", userAgent);
+
+                request.setDescription("Descargando...");
+
+                request.setTitle(URLUtil.guessFileName(url, contentDisposition,
+                        mimeType));
+
+                request.allowScanningByMediaScanner();
+
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(
+                                url, contentDisposition, mimeType));
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+                Toast.makeText(getApplicationContext(), "Descargando...",
+                        Toast.LENGTH_LONG).show();
+            }});
+        webView.setWebChromeClient(new WebChromeClient());
 
 
 
