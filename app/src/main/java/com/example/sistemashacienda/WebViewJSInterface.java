@@ -23,7 +23,7 @@ public class WebViewJSInterface {
 
     /** Show a toast from the web page */
     @JavascriptInterface
-    public void showToast(String toast) {
+    public void init() {
         //Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
