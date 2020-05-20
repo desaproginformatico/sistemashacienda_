@@ -17,26 +17,11 @@ public class WebViewJSInterface {
     /** Instantiate the interface and set the context */
     WebViewJSInterface(Context c) {
         mContext = c;
-        webView = (WebView) ((Activity) mContext).findViewById(R.id.webView);
-        splash = (ImageView) ((Activity) mContext).findViewById(R.id.splash);
+        webView = (WebView) ((Activity) mContext).findViewById(R.id.idWebView);
     }
 
     /** Show a toast from the web page */
     @JavascriptInterface
     public void init() {
-        //Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-        ((Activity) mContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.setVisibility(View.VISIBLE);
-                        splash.setVisibility(View.GONE);
-                    }
-                }, 100);
-            }
-        });
-
     }
 }

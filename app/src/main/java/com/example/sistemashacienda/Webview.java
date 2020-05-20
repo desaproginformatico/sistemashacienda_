@@ -1,5 +1,8 @@
 package com.example.sistemashacienda;
 
+import android.graphics.Bitmap;
+import android.view.View;
+import android.webkit.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,24 +12,21 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.DownloadListener;
-import android.webkit.URLUtil;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 public class Webview extends AppCompatActivity {
+
+    private static final String URL="http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/";
+
     private WebView webView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    boolean control=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +36,52 @@ public class Webview extends AppCompatActivity {
         obtenerToken();
 
         setContentView(R.layout.activity_webview);
-        webView = (WebView) findViewById(R.id.webView);
-        webView.setVisibility(View.GONE);
-        webView.loadUrl("http://www.sistemas-hacienda.sanluis.gov.ar/nuevositio/sistemas/");
+        webView = (WebView) findViewById(R.id.idWebView);
+        swipeRefreshLayout=findViewById(R.id.idSwipeRefreshLayout);
+
+        webView.loadUrl(URL);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webView.reload();
+            }
+        });
+
+        webView.setWebViewClient( new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                swipeRefreshLayout.setRefreshing(true);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if(control) {
+                    webView.setVisibility(View.VISIBLE);
+                    setTheme(R.style.AppTheme);
+                    control=false;
+                }
+                swipeRefreshLayout.setRefreshing(false);
+                super.onPageFinished(view, url);
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient());
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
-        //webView.setVisibility(View.GONE);
+
+        //Sin uso por ahora
+        //webView.addJavascriptInterface(new WebViewJSInterface(this), "Android");
+
         webView.setDownloadListener(new DownloadListener()
         {
 
@@ -79,7 +117,8 @@ public class Webview extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Descargando...",
                         Toast.LENGTH_LONG).show();
             }});
-        webView.setWebChromeClient(new WebChromeClient());
+
+
 
 
 
