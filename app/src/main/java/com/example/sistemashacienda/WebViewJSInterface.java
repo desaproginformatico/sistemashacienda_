@@ -30,4 +30,12 @@ public class WebViewJSInterface {
         return Utils.getDeviceName();
     }
 
+    @JavascriptInterface
+    public String  GetGoogleName(){
+
+
+
+        return ((Webview) mContext).correo_gmail;
+    }
+
 }

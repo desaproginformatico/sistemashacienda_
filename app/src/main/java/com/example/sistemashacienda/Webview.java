@@ -1,5 +1,6 @@
 package com.example.sistemashacienda;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.webkit.*;
@@ -15,6 +16,12 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -26,10 +33,27 @@ public class Webview extends AppCompatActivity {
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
     public String mToken;
+    public String correo_gmail;
     boolean control=true;
+    private static final int RC_SIGN_IN = 777 ;
+    private GoogleSignInClient mGoogleSignInClient;
+    private SignInButton signInButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        //inicio configuracion log google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //fin  configuracion log google
+
 
         super.onCreate(savedInstanceState);
         //Obtiene el token de firebse y lo pega en el clipboad
@@ -119,7 +143,7 @@ public class Webview extends AppCompatActivity {
 
 
 
-
+        signIn();//llama al metodo para loguear
 
 
     }
@@ -176,6 +200,21 @@ public class Webview extends AppCompatActivity {
     }
 
     ///fin firebase
+
+    private void signIn() {  //llamar al metodo para loguearse
+
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+        if( GoogleSignIn.getLastSignedInAccount(this)!= null)
+        {
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            correo_gmail =account.getEmail().toString();
+            Toast.makeText(this,correo_gmail, Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
 
 
 
