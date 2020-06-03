@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.webkit.*;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,9 +24,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Webview extends AppCompatActivity {
 
@@ -46,11 +56,13 @@ public class Webview extends AppCompatActivity {
 
 
         //inicio configuracion log google
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+        //GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+          //      .requestEmail()
+            //    .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+       // mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("yahoo.com");
+
 
         //fin  configuracion log google
 
@@ -143,7 +155,39 @@ public class Webview extends AppCompatActivity {
 
 
 
-        signIn();//llama al metodo para loguear
+        //signIn();//llama al metodo para loguear
+
+        //inicio logueo con yahoo
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseAuth
+                .startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+                .addOnSuccessListener(
+                        new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                // User is signed in.
+                                // IdP data available in
+                                Toast.makeText(Webview.this,  authResult.getUser().getEmail(), Toast.LENGTH_SHORT).show();
+                               // authResult.getAdditionalUserInfo().getUsername();
+                                // The OAuth access token can be retrieved:
+                                //authResult.getCredential().getAccessToken().
+                                // Yahoo OAuth ID token can also be retrieved:
+                                // authResult.getCredential().getIdToken().
+
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle failure.
+                            }
+                        });
+
+        // fin logeuo yahoo
+
+
 
 
     }
