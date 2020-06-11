@@ -61,7 +61,8 @@ public class Webview extends AppCompatActivity {
             //    .build();
 
        // mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        OAuthProvider.Builder provider = OAuthProvider.newBuilder("yahoo.com");
+        //OAuthProvider.Builder provider = OAuthProvider.newBuilder("yahoo.com");
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
 
 
         //fin  configuracion log google
@@ -155,7 +156,7 @@ public class Webview extends AppCompatActivity {
 
 
 
-        //signIn();//llama al metodo para loguear
+        //signIn();//llama al metodo para loguear con google
 
         //inicio logueo con yahoo
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -181,7 +182,9 @@ public class Webview extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Webview.this,e.toString(), Toast.LENGTH_SHORT).show();
                                 // Handle failure.
+
                             }
                         });
 
